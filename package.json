@@ -1,0 +1,16 @@
+{
+  "name": "tabler",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "watch": "webpack --watch --mode development"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "input-file-reader": "github:aznoqmous/input-file-reader",
+    "table-util": "github:aznoqmous/table-util",
+    "webpack": "^4.35.3"
+  }
+}
