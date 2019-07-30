@@ -33,6 +33,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
     fileName.innerHTML = currentFile.name
     fileSize.innerHTML = '('+getfilesize(currentFile.size)+')'
     rowCount.innerHTML = tabler.rows.length + ' rows'
+    separator.innerHTML = tabler.config.separator
 
     // EXPORTS
     exports.innerHTML = ''
