@@ -56,36 +56,56 @@ document.addEventListener('DOMContentLoaded', ()=>{
     // GLOBAL CONTROLS
     offset.value = tabler.config.offset
     limit.value = tabler.config.limit
+    displayRowsAction()
+    function displayRowsAction(){
+      displayRows.innerHTML = `${tabler.config.offset}-${tabler.config.offset+tabler.config.limit}/${tabler.rows.length}`
+    }
     offset.addEventListener('keyup', (e)=>{
       if(e.key != 'Enter') return false;
       tabler.clearTable()
       tabler.loadRows(offset.value, limit.value)
+      displayRowsAction()
     })
     limit.addEventListener('keyup', (e)=>{
       if(e.key != 'Enter') return false;
       tabler.clearTable()
       tabler.loadRows(offset.value, limit.value)
+      displayRowsAction()
     })
     prev.addEventListener('click', ()=>{
       let offsetValue = parseInt(offset.value)
       let limitValue = parseInt(limit.value)
-      if(offsetValue - limitValue >= 0) offset.value = offsetValue - limitValue
-      tabler.clearTable()
+      if(offsetValue - limitValue > 0) offset.value = offsetValue - limitValue
+      else offset.value = 0
       tabler.loadRows(offset.value, limit.value)
+      displayRowsAction()
     })
     next.addEventListener('click', ()=>{
       let offsetValue = parseInt(offset.value)
       let limitValue = parseInt(limit.value)
       if(offsetValue + limitValue < tabler.rows.length) offset.value = offsetValue + limitValue
+      else offset.value = tabler.rows.length - limitValue
       tabler.clearTable()
-      tabler.loadRows(offsetValue, limitValue)
+      tabler.loadRows(offset.value, limit.value)
+      displayRowsAction()
+    })
+    newFields.addEventListener('keyup', (e)=>{
+      if(e.key == 'Enter') {
+        let separator = tabler.guessSeparator(e.target.value)
+        let fields = e.target.value.split(separator)
+        fields.map(field=>{
+          if(!field.length) field = 'New Field ' + (tabler.fields.length + 1)
+          if(tabler.fields.includes(field)) return false;
+          tabler.addField(field)
+          tabler.bindField(field)
+          tabler.reloadTable()
+        })
+        e.target.value = ''
+      }
     })
 
     // HTML TABLE RENDER
-    let table = tabler.htmlController()
-    htmlArrayResult.innerHTML = ''
-    htmlArrayResult.appendChild(table)
-    tabler.loadRows()
+    tabler.htmlController(htmlArrayResult)
 
     display.classList.remove('invisible')
   })

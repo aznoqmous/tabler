@@ -4,40 +4,8 @@
   <meta charset="utf-8">
   <title>Tabler</title>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="style.css">
   <script src="dist/main.js"></script>
-  <style media="screen">
-  table thead input.form-control{
-    font-weight: bold;
-  }
-  table .controls input.form-control {
-    border: 1px solid #ced4da;
-    font-weight: normal;
-  }
-  table input {
-    border: none
-  }
-  .table td, .table th{
-    padding: 0.2rem;
-  }
-  input.form-control{
-    border: none;
-    padding: 0.2rem;
-    height: unset;
-  }
-  button, input.form-control{
-    font-size: 0.8rem;
-  }
-  .table td.match{
-    font-style: italic;
-    text-decoration: underline;
-  }
-  #htmlArrayResult{
-    /* overflow-x: scroll; */
-  }
-  .icon{
-    font-family: sans;
-  }
-  </style>
 </head>
 <body>
   <div class="container">
@@ -72,7 +40,9 @@
           <button id="next" class="icon btn btn-light" type="button" name="button">▶</button>
           <input id="offset" class="form-control" type="number" step="1">
           <input id="limit" class="form-control" type="number" step="1">
+          <span id="displayRows"></span>
         </div>
+        <input id="newFields" class="form-control" type="text" name="" placeholder="Add field or fields by using separator">
       </div>
       <div id="htmlArrayResult"></div>
 
