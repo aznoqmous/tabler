@@ -1,10 +1,11 @@
 import InputFileReader from 'input-file-reader'
+import Req from 'req'
 import TableUtil from 'table-util'
 import Tabler from './tabler.js'
 
 document.addEventListener('DOMContentLoaded', ()=>{
 
-  new InputFileReader({
+  let fileReader = new InputFileReader({
     input: inputFile
   })
   .onFileSelect(()=>{
@@ -20,6 +21,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
     let tabler = new Tabler({
       data: fileContent
     })
+    window.t = tabler
 
     // FILE INFOS
     let getfilesize = (size)=>{
@@ -29,19 +31,27 @@ document.addEventListener('DOMContentLoaded', ()=>{
       if((size+'').length > 9) filesize = Math.round(size / 100000000) / 10 + 'go'
       return filesize;
     }
-    let currentFile = inputFile.files[inputFile.files.length-1]
+    var currentFile = inputFile.files[inputFile.files.length-1]
     fileName.innerHTML = currentFile.name
     fileSize.innerHTML = '('+getfilesize(currentFile.size)+')'
     rowCount.innerHTML = tabler.rows.length + ' rows'
-    separator.innerHTML = tabler.config.separator
+    separator.innerHTML = JSON.stringify(tabler.config.separator)
+    endOfLine.innerHTML = JSON.stringify(tabler.config.eol)
 
     // EXPORTS
     exports.innerHTML = ''
     let exportCSV = document.createElement('button')
     exportCSV.className="btn btn-primary m-2"
     exportCSV.innerHTML = '.csv'
+    let buildCSV = new Req({url: "services/buildCSV.php", method: "POST" })
     exportCSV.addEventListener('click', ()=>{
-      console.log(tabler.export())
+      buildCSV.do({data: tabler.csv(), filename: currentFile.name})
+      .then((res)=>{
+        downloads.innerHTML += `<a href="${res.json}">Télécharger</a>`
+      })
+      .catch((err)=>{
+        console.warn(err)
+      })
     })
     exports.appendChild(exportCSV)
 

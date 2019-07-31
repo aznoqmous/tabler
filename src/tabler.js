@@ -18,6 +18,11 @@ export default class Tabler{
     this.fields = []
     this.rows = []
     this.config.separator = this.guessSeparator(this.config.data)
+    this.config.eol = this.guessEndOfLine(this.config.data)
+  }
+  guessEndOfLine(data){
+    if(data.split('\r\n').length) return '\r\n';
+    else return '\n';
   }
   guessSeparator(data){
     let separators = [',', ';']
@@ -314,7 +319,7 @@ export default class Tabler{
   }
 
   // exports
-  export(){
+  csv(){
     let csv = '';
     this.fields.map((field, i)=>{
       csv += field
@@ -329,7 +334,6 @@ export default class Tabler{
       })
       csv += this.config.eol
     })
-
     return csv
   }
   json(){

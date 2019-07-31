@@ -10,6 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "input-file-reader": "github:aznoqmous/input-file-reader",
+    "req": "github:aznoqmous/req",
     "table-util": "github:aznoqmous/table-util",
     "webpack": "^4.35.3"
   }
